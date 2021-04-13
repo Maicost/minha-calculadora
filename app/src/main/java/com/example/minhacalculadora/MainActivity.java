@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     public void onClickBtn0(View view) {
         AddValores(getString(R.string.btn0));
     }
+
     public void onClickBtnVirgula(View view) {
         AddValores(getString(R.string.virgula));
     }
@@ -90,15 +91,15 @@ public class MainActivity extends AppCompatActivity {
         if (stringBuilder.length() > 0) //verifica os valores da stringbuilder e deleta 1
             stringBuilder.setLength(stringBuilder.length() - 1);
         else {
-            if (numerosEsinais.size() > 0 && numerosEsinais.get(numerosEsinais.size()-1).length() > 0) {
+            if (numerosEsinais.size() > 0 && numerosEsinais.get(numerosEsinais.size() - 1).length() > 0) {
                 StringBuilder valor = new StringBuilder();
-                valor.append(numerosEsinais.get(numerosEsinais.size()-1));
-                if (numerosEsinais.get(numerosEsinais.size()-1).length() > 1) { //se o valor no indice tiver mais de um elemento o mesmo atribuido a variavel valor sera refuzido um caractere
-                    valor.setLength(numerosEsinais.get(numerosEsinais.size()-1).length() - 1); //ira deletar a posição do ultimo valor e atribuido a variavel valor com 1 caractere reduzido
-                    numerosEsinais.remove(numerosEsinais.size()-1);
+                valor.append(numerosEsinais.get(numerosEsinais.size() - 1));
+                if (numerosEsinais.get(numerosEsinais.size() - 1).length() > 1) { //se o valor no indice tiver mais de um elemento o mesmo atribuido a variavel valor sera refuzido um caractere
+                    valor.setLength(numerosEsinais.get(numerosEsinais.size() - 1).length() - 1); //ira deletar a posição do ultimo valor e atribuido a variavel valor com 1 caractere reduzido
+                    numerosEsinais.remove(numerosEsinais.size() - 1);
                     numerosEsinais.add(valor.toString());
                 } else { //caso o indice tenha apenas um valor o indice será deletado
-                    numerosEsinais.remove(numerosEsinais.size()-1);
+                    numerosEsinais.remove(numerosEsinais.size() - 1);
                 }
             }
         }
@@ -107,10 +108,23 @@ public class MainActivity extends AppCompatActivity {
     public void onClickBtnIgual(View view) {
         if (stringBuilder.length() > 0) {
             float resultado = 0;
-            if (!stringBuilder.toString().equals("/") || !stringBuilder.toString().equals("*") || !stringBuilder.toString().equals("-") || !stringBuilder.toString().equals("+"))
-                numerosEsinais.add(stringBuilder.toString());
+            if (!stringBuilder.toString().equals("/") ||
+                    !stringBuilder.toString().equals("*") ||
+                    !stringBuilder.toString().equals("-") ||
+                    !stringBuilder.toString().equals("+")) {
+                if (!numerosEsinais.get(numerosEsinais.size() - 1).equals("/") &&
+                        !numerosEsinais.get(numerosEsinais.size() - 1).equals("*") &&
+                        !numerosEsinais.get(numerosEsinais.size() - 1).equals("-") &&
+                        !numerosEsinais.get(numerosEsinais.size() - 1).equals("+")) { //se o valor da ultima posição vor um numero, logo ira concatenar o numero presento no stringbuilder
+                    numerosEsinais.set(numerosEsinais.size()-1, numerosEsinais.get(numerosEsinais.size()-1)+""+stringBuilder.toString());
+                }else
+                    numerosEsinais.add(stringBuilder.toString());
+            }
             if (numerosEsinais.size() >= 2) {
-                if (numerosEsinais.get(0).equals("/") || numerosEsinais.get(0).equals("*") || numerosEsinais.get(0).equals("-") || numerosEsinais.get(0).equals("+")) {
+                if (numerosEsinais.get(0).equals("/") ||
+                        numerosEsinais.get(0).equals("*") ||
+                        numerosEsinais.get(0).equals("-") ||
+                        numerosEsinais.get(0).equals("+")) {
                     if (numerosEsinais.size() >= 3)
                         for (int i = 2; numerosEsinais.size() - 1 > i; i += 2) {
                             if (i == 2 && numerosEsinais.get(i - 2).equals("-")) {
@@ -203,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<String> Verificacao2(ArrayList<String> numerosEsinais, StringBuilder stringBuilder, String str, TextView display1) {
         if (str.equals("/") || str.equals("*") || str.equals("-") || str.equals("+")) {
-            if (stringBuilder.length() > 0) { //se for um operador for inserido o valor numérico contido na stringbuilder é anexado ao array de valores e sinais e resetado o valor da stringbuilder
+            if (stringBuilder.length() > 0) { //se for um operador inserido o valor numérico contido na stringbuilder é anexado ao array de valores e sinais e resetado o valor da stringbuilder
                 numerosEsinais.add(stringBuilder.toString());
                 this.stringBuilder = new StringBuilder();
             }
